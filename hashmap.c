@@ -54,7 +54,7 @@ void insertMap(HashMap * map, char * key, void * value) {
                 map->buckets[destino] = createPair(key, value); 
             }
             else{
-                map->buckets[destino]->key = clave; 
+                map->buckets[destino]->key = key; 
                 map->buckets[destino]->value = value; 
             }
 
@@ -66,7 +66,7 @@ void insertMap(HashMap * map, char * key, void * value) {
             if(first_free == -1) first_free = idx; 
         }
         else{
-            is(is_equal(casilla->key, key)){
+            if(is_equal(casilla->key, key)){
                 map->current = idx; 
                 return; 
             }
@@ -78,7 +78,7 @@ void insertMap(HashMap * map, char * key, void * value) {
             if(first_free != -1){
                 long destino = first_free; 
                 if(map->buckets[destino] == NULL){
-                    map->bucket[destino] = createPair(key, value); 
+                    map->buckets[destino] = createPair(key, value); 
             } else{
                 map->buckets[destino]->key = key; 
                 map->buckets[destino]->value = value;
@@ -96,7 +96,6 @@ void enlarge(HashMap * map) {
 
 
 }
-
 
 HashMap * createMap(long capacity) {
     if(capacity < 1) capacity = 1; 
@@ -149,7 +148,7 @@ Pair * searchMap(HashMap * map,  char * key) {
 
         idx = (idx + 1) % map->capacity; 
 
-        if(index == inicio){
+        if(idx == inicio){
             map->current = -1; 
             return NULL; 
         }
