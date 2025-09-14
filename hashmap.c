@@ -40,7 +40,54 @@ int is_equal(void* key1, void* key2){
 
 
 void insertMap(HashMap * map, char * key, void * value) {
+    if(map == NULL || key == NULL) return; 
+    long idx  = hash(key, map->capacity); 
+    long inicio = idx; 
+    long first_free = -1 ; 
 
+    while(1){
+        Pair *casilla = map->buckets[idx]; 
+        if(casilla == NULL){
+            long destino = (first_free != -1) ? first_free : idx; 
+
+            if(map->buckets[destino] == NULL){
+                map->buckets[destino] = createPair(key, value); 
+            }
+            else{
+                map->buckets[destino]->key = clave; 
+                map->buckets[destino]->value = value; 
+            }
+
+            map->size += 1; 
+            map->current = destino; 
+            return; 
+        }
+        if(casilla->key == NULL){
+            if(first_free == -1) first_free = idx; 
+        }
+        else{
+            is(is_equal(casilla->key, key)){
+                map->current = idx; 
+                return; 
+            }
+        }
+
+        idx = (idx + 1) % map->capacity; 
+
+        if(idx == inicio){
+            if(first_free != -1){
+                long destino = first_free; 
+                if(map->buckets[destino] == NULL){
+                    map->bucket[destino] = createPair(key, value); 
+            } else{
+                map->buckets[destino]->key = key; 
+                map->buckets[destino]->value = value;
+            }
+            map->size += 1; 
+            map->current = destino; 
+        }
+        return;
+    }
 
 }
 
@@ -71,14 +118,42 @@ HashMap * createMap(long capacity) {
 }
 
 void eraseMap(HashMap * map,  char * key) {    
+    if(map == NULL || key == NULL) return; 
 
+    Pair *casilla = searchMap(map, key); 
+    if(casilla == NULL) return; 
 
+    casilla->key = NULL; 
+    casilla->value = NULL; 
+
+    map->size -= 1; 
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
+    if(map == NULL || key == NULL) return NULL; 
+    
+    long idx = hash(key, map->capacity);
+    long inicio = idx; 
+    
+    while(1){
+        Pair *casilla = map->buckets[idx]; 
+        if(casilla == NULL){
+            map->current = -1;
+            return NULL; 
+        }
 
+        if(casilla->key != NULL && is_equal(casilla->key, key)){
+            map->current = idx; 
+            return casilla; 
+        }
 
-    return NULL;
+        idx = (idx + 1) % map->capacity; 
+
+        if(index == inicio){
+            map->current = -1; 
+            return NULL; 
+        }
+    }
 }
 
 Pair * firstMap(HashMap * map) {
