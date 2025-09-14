@@ -66,3 +66,52 @@ test.c:100:6: error: 'hash_test1' defined but not used [-Werror=unused-function]
       ^~~~~~~~~~
 cc1.exe: all warnings being treated as errors
 b6cc38f
+do., 14 de sep. de 2025 13:51:50: 
+Compilation failed
+In file included from test.c:4:0:
+hashmap.c: In function 'insertMap':
+hashmap.c:57:46: error: 'clave' undeclared (first use in this function)
+                 map->buckets[destino]->key = clave;
+                                              ^~~~~
+hashmap.c:57:46: note: each undeclared identifier is reported only once for each function it appears in
+hashmap.c:69:13: error: implicit declaration of function 'is' [-Werror=implicit-function-declaration]
+             is(is_equal(casilla->key, key)){
+             ^~
+hashmap.c:69:44: error: expected ';' before '{' token
+             is(is_equal(casilla->key, key)){
+                                            ^
+hashmap.c:81:24: error: 'HashMap {aka struct HashMap}' has no member named 'bucket'; did you mean 'buckets'?
+                     map->bucket[destino] = createPair(key, value);
+                        ^~
+hashmap.c: In function 'searchMap':
+hashmap.c:152:12: error: 'index' undeclared (first use in this function)
+         if(index == inicio){
+            ^~~~~
+test.c: In function 'insertMap':
+test.c:453:5: error: 'main' is normally a non-static function [-Werror=main]
+ int main( int argc, char *argv[] ) {
+     ^~~~
+test.c:511:1: error: expected declaration or statement at end of input
+ }
+ ^
+At top level:
+test.c:453:5: error: 'main' defined but not used [-Werror=unused-function]
+ int main( int argc, char *argv[] ) {
+     ^~~~
+test.c:217:5: error: 'insert_test5' defined but not used [-Werror=unused-function]
+ int insert_test5(){ //factor de carga>0.7, se llama a función enlarge
+     ^~~~~~~~~~~~
+test.c:131:6: error: 'compare_test' defined but not used [-Werror=unused-function]
+ void compare_test(){
+      ^~~~~~~~~~~~
+test.c:125:6: error: 'hash_test3' defined but not used [-Werror=unused-function]
+ void hash_test3(){ //no random
+      ^~~~~~~~~~
+test.c:111:6: error: 'hash_test2' defined but not used [-Werror=unused-function]
+ void hash_test2(){ // colisiones
+      ^~~~~~~~~~
+test.c:100:6: error: 'hash_test1' defined but not used [-Werror=unused-function]
+ void hash_test1(){ // posición válida
+      ^~~~~~~~~~
+cc1.exe: all warnings being treated as errors
+bc32717
