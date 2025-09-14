@@ -165,7 +165,7 @@ Pair *searchMap(HashMap * map,  char * key){
 }
 
 Pair * firstMap(HashMap * map) {
-    id(map == NULL || map->buckets == NULL || map->capacity <= 0){
+    if(map == NULL || map->buckets == NULL || map->capacity <= 0){
         return NULL;
     }
     for(long k = 0; k< map->capacity; k++){
