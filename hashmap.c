@@ -101,9 +101,31 @@ void insertMap(HashMap * map, char * key, void * value) {
 
 
 void enlarge(HashMap * map){
+    if(map == NULL) return; 
     enlarge_called = 1; //no borrar (testing purposes)
 
-    return; 
+    Pair ** old_buckets = map->buckets; 
+    long old_capacity = map->capacity; 
+
+    map->capacity *= 2; 
+
+    map->buckets = (Pair**)calloc(map->capacity, sizeof(Pair*)); 
+    if(map->buckets == NULL){
+        map->buckets = old_buckets; 
+        map->capacity = old_capacity; 
+        return;
+    }
+
+    map->size = 0; 
+    map->current = -1; 
+
+    for(long k=0; k<old_capacity; k++){
+        Pair *p = old_buckets[k]; 
+        if(p != NULL && p->key != NULL){
+            insertMap(map, p->key, p->value); 
+        }
+    }
+    free(old_buckets); 
 }
 
 HashMap * createMap(long capacity) {
