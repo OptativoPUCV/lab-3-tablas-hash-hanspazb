@@ -41,17 +41,21 @@ int is_equal(void* key1, void* key2){
 
 void insertMap(HashMap * map, char * key, void * value) {
     if(map == NULL || key == NULL) return; 
+
     long idx  = hash(key, map->capacity); 
     long inicio = idx; 
     long first_free = -1 ; 
 
     while(1){
         Pair *casilla = map->buckets[idx]; 
+
         if(casilla == NULL){
             long destino = (first_free != -1) ? first_free : idx; 
 
             if(map->buckets[destino] == NULL){
-                map->buckets[destino] = createPair(key, value); 
+                Pair* p = createPair(key, value); 
+                if(!p) return; 
+                map->buckets[destino] = p; 
             }
             else{
                 map->buckets[destino]->key = key; 
@@ -62,14 +66,14 @@ void insertMap(HashMap * map, char * key, void * value) {
             map->current = destino; 
             return; 
         }
+
         if(casilla->key == NULL){
             if(first_free == -1) first_free = idx; 
         }
-        else{
-            if(is_equal(casilla->key, key)){
-                map->current = idx; 
-                return; 
-            }
+        else if(is_equal(casilla->key, key)){
+            casilla->value = value; 
+            map->current = idx; 
+            return; 
         }
 
         idx = (idx + 1) % map->capacity; 
@@ -77,24 +81,29 @@ void insertMap(HashMap * map, char * key, void * value) {
         if(idx == inicio){
             if(first_free != -1){
                 long destino = first_free; 
-                if(map->buckets[destino] == NULL){
-                    map->buckets[destino] = createPair(key, value); 
-            } else{
-                map->buckets[destino]->key = key; 
-                map->buckets[destino]->value = value;
-            }
-            map->size += 1; 
-            map->current = destino; 
-        }
-        return;
-    }
 
+                if(map->buckets[destino] == NULL){
+                    Pair *p = createPair(key, value); 
+                    if(!p) return; 
+                    map->buckets[destino] = p; 
+                }
+                else{
+                    map->buckets[destino]->key = key; 
+                    map->buckets[destino]->value = value;
+                }
+                map->size += 1; 
+                map->current = destino; 
+            }
+            return;
+        }
+    }
 }
 
-void enlarge(HashMap * map) {
+
+void enlarge(HashMap * map){
     enlarge_called = 1; //no borrar (testing purposes)
 
-
+    return; 
 }
 
 HashMap * createMap(long capacity) {
@@ -128,7 +137,7 @@ void eraseMap(HashMap * map,  char * key) {
     map->size -= 1; 
 }
 
-Pair * searchMap(HashMap * map,  char * key) {   
+Pair *searchMap(HashMap * map,  char * key){   
     if(map == NULL || key == NULL) return NULL; 
     
     long idx = hash(key, map->capacity);
