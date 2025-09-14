@@ -165,11 +165,35 @@ Pair *searchMap(HashMap * map,  char * key){
 }
 
 Pair * firstMap(HashMap * map) {
+    id(map == NULL || map->buckets == NULL || map->capacity <= 0){
+        return NULL;
+    }
+    for(long k = 0; k< map->capacity; k++){
+        Pair *p = map->buckets[k]; 
+        if(p != NULL && p->key != NULL){
+            map->current = k; 
+            return p; 
+        }
+    }
 
+    map->current = -1; 
     return NULL;
 }
 
 Pair * nextMap(HashMap * map) {
+    if(map == NULL || map->buckets == NULL || map->capacity <= 0){
+        return NULL;
+    }
+    long inicio = (map->current < 0) ? 0 : map->current + 1; 
 
+    for(long k= inicio; k<map->capacity; k++){
+        Pair* p = map->buckets[k]; 
+        if(p != NULL && p->key != NULL){
+            map->current = k; 
+            return p; 
+        }
+    }
+
+    map->current = -1; 
     return NULL;
 }

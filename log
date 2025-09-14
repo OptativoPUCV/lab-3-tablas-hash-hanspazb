@@ -153,3 +153,17 @@ do., 14 de sep. de 2025 14:12:13:
  tests:  11|2
 total_score: 50/70
 5918dea
+do., 14 de sep. de 2025 14:22:17: 
+ hashmap.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+Compilation failed
+In file included from test.c:4:0:
+hashmap.c: In function 'firstMap':
+hashmap.c:168:5: error: implicit declaration of function 'id' [-Werror=implicit-function-declaration]
+     id(map == NULL || map->buckets == NULL || map->capacity <= 0){
+     ^~
+hashmap.c:168:66: error: expected ';' before '{' token
+     id(map == NULL || map->buckets == NULL || map->capacity <= 0){
+                                                                  ^
+cc1.exe: all warnings being treated as errors
+a2545a9
